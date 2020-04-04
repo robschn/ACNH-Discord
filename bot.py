@@ -12,27 +12,17 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='!')
 
 def insertPurchase(purchase_price, author):
-    try: 
-        data = pd.read_csv('data.csv')
-        insert = pd.DataFrame(columns = ['Purchase Price', 'Sell Price', 'Time', 'Author Name'])
-        insert['Purchase Price'][0] = purchase_price
-        insert['Sell Price'][0] = 0
-        insert['Time'][0] = pd.datetime.now()
-        insert['Author Name'][0] = author
-        print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
-        data = pd.concat([data, insert], ignore_index = True, sort = False)
-        data.to_csv('data.csv')
-        print('Finished!')
 
-    except Exception as e:
-        insert = pd.DataFrame(columns = ['Purchase Price', 'Sell Price', 'Time', 'Author Name'])
-        insert['Purchase Price'][0] = purchase_price
-        insert['Sell Price'][0] = 0
-        insert['Time'][0] = pd.datetime.now()
-        insert['Author Name'][0] = author
-        print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
-        insert.to_csv('data.csv')
-        print('Finished!')
+    data = pd.read_csv('data.csv')
+    insert = pd.DataFrame(data =  {'Purchase Price':[purchase_price],
+                                    'Sell Price':[0],
+                                    'Time':[pd.datetime.now()],
+                                    'Author Name':[author]})
+    
+    print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
+    data.append(insert, ignore_index = True)
+    data.to_csv('data.csv')
+    print('Finished!')
 
 @bot.command(name='purchase_price', help='Logs purchase price of turnips')
 async def purchase_price(ctx, purchase_price: int):
@@ -65,4 +55,11 @@ async def current_price(ctx, current_price: int):
 bot.run(TOKEN)
 
 
+# import pandas as pd
 
+# data = pd.DataFrame(data =  {'Purchase Price':[0],
+#                                        'Sell Price':[0],
+#                                        'Time':[pd.datetime.now()],
+#                                        'Author Name':['admin']})
+
+# data.to_csv('data.csv')
