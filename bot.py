@@ -21,5 +21,5 @@ bot = commands.Bot(command_prefix='!')
 async def price(ctx, current_price: int):
     await ctx.send(f'Your current price of {current_price} has been logged!')
 
-
+client.run(TOKEN)
 bot.run(TOKEN)
