@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix='!')
 def insertPurchase(purchase_price, author):
 
     data = pd.read_csv('data.csv')
-    insert = pd.DataFrame()
+    insert = pd.DataFrame(columns = ['Purchase Price', 'Sell Price', 'Time', 'Author Name'])
     insert['Purchase Price'][0] = purchase_price
     insert['Sell Price'][0] = 0
     insert['Time'][0] = pd.datetime.now()
