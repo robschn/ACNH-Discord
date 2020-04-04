@@ -24,8 +24,7 @@ async def stalk(ctx):
     return_purchase = purchase_price()
     return_current = current_price()
     await ctx.send(
-    f'You purchased turnips at {return_purchase} bells',
-    f'Here is the current price: {return_current}'
+    f'You purchased turnips at {return_purchase} bells\nHere is the current price: {return_current}'
     )
 
 bot.run(TOKEN)
