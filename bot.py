@@ -13,14 +13,16 @@ bot = commands.Bot(command_prefix='!')
 
 def insertPurchase(purchase_price, author):
 
-    data = pd.read_csv('data.csv')
+    data = pd.read_csv('data.csv', index_col=0)
     insert = pd.DataFrame(data =  {'Purchase Price':[purchase_price],
                                     'Sell Price':[0],
                                     'Time':[pd.datetime.now()],
                                     'Author Name':[author]})
     
     print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
-    data.append(insert, ignore_index = True)
+    data = pd.concat([data, insert], ignore_index=True)
+    # data.drop(columns=['Unnamed: 0'])
+    data.head()
     data.to_csv('data.csv')
     print('Finished!')
 
