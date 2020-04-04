@@ -18,6 +18,7 @@ def insertPurchase(purchase_price, author):
     insert[['Purchase Price', 'Sell Price', 'Time', 'Author Name']] = purchase_price, 0, pd.datetime.now(), author
     print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
     data = pd.concat([data, insert], ignore_index = True, sort = False)
+    data.to_csv('data.csv')
     print('Finished!')
 
 @bot.command(name='purchase_price', help='Logs purchase price of turnips')
@@ -59,4 +60,11 @@ def insertPurchase(purchase_price, author):
     print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
     data = pd.concat([data, insert], ignore_index = True, sort = False)
     print('Finished!')
+
+# data = pd.DataFrame()
+# data['Purhcase Price'] = 0
+# data['Sell Price'] = 0
+# data['Time'] = pd.datetime.now()
+# data['Author Name'] = 'admin'
+# data.to_csv('data.csv')
 
