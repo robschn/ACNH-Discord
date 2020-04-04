@@ -14,12 +14,9 @@ async def on_ready():
 
 bot = commands.Bot(command_prefix='!')
 
-@bot.command(name='roll_dice', help='Simulates rolling dice.')
-async def roll(ctx, number_of_dice: int, number_of_sides: int):
-    dice = [
-        str(random.choice(range(1, number_of_sides + 1)))
-        for _ in range(number_of_dice)
-    ]
-    await ctx.send(', '.join(dice))
+@bot.command(name='turnip', help='Logs current price of turnips')
+async def price(ctx, current_price: int):
+    await ctx.send(f'Your current price of {current_price} has been logged!')
+
 
 bot.run(TOKEN)
