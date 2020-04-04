@@ -15,7 +15,7 @@ def insertPurchase(purchase_price, author):
 
     data = pd.read_csv('data.csv')
     insert = pd.DataFrame()
-    insert['Purhcase Price'][0] = purchase_price
+    insert['Purchase Price'][0] = purchase_price
     insert['Sell Price'][0] = 0
     insert['Time'][0] = pd.datetime.now()
     insert['Author Name'][0] = author
