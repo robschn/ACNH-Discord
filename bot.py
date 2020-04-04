@@ -15,10 +15,12 @@ def insertPurchase(purchase_price, author):
 
     data = pd.read_csv('data.csv')
     insert = pd.DataFrame()
-    insert[['Purchase Price', 'Sell Price', 'Time', 'Author Name']] = purchase_price, 0, pd.datetime.now(), author
+    insert['Purhcase Price'][0] = purchase_price
+    insert['Sell Price'][0] = 0
+    insert['Time'][0] = pd.datetime.now()
+    insert['Author Name'][0] = author
     print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
     data = pd.concat([data, insert], ignore_index = True, sort = False)
-    data.to_csv('data.csv')
     print('Finished!')
 
 @bot.command(name='purchase_price', help='Logs purchase price of turnips')
@@ -52,14 +54,4 @@ async def current_price(ctx, current_price: int):
 bot.run(TOKEN)
 
 
-def insertPurchase(purchase_price, author):
 
-    data = pd.read_csv('data.csv')
-    insert = pd.DataFrame()
-    insert['Purhcase Price'][0] = purchase_price
-    insert['Sell Price'][0] = 0
-    insert['Time'][0] = pd.datetime.now()
-    insert['Author Name'][0] = author
-    print(f'Saving : Purchase Price {purchase_price}, Time: {pd.datetime.now()}, Author: {author}')
-    data = pd.concat([data, insert], ignore_index = True, sort = False)
-    print('Finished!')
