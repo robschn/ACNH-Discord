@@ -1,19 +1,11 @@
 # bot.py
 import os
 
-import discord
-
 from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
-client = discord.Client()
-
-@client.event
-async def on_ready():
-    print(f'{client.user} has connected to Discord!')
 
 bot = commands.Bot(command_prefix='!')
 
@@ -21,5 +13,4 @@ bot = commands.Bot(command_prefix='!')
 async def price(ctx, current_price: int):
     await ctx.send(f'Your current price of {current_price} has been logged!')
 
-client.run(TOKEN)
 bot.run(TOKEN)
