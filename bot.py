@@ -21,21 +21,21 @@ bot = commands.Bot(command_prefix='!')
 
 @bot.command(name='purchase_price', help='Logs purchase price of turnips')
 async def purchase_price(ctx, purchase_price: int):
-    username = ctx.author
+    username = ctx.author.id
     botfunctions.insertPurchase(purchase_price, username)
-    await ctx.send(f'@{username}! Your purchase price of {purchase_price} has been logged!')
+    await ctx.send(f'@{username} Your purchase price of {purchase_price} has been logged!')
 
 
 @bot.command(name='current_price', help='Logs current price of turnips')
 async def current_price(ctx, current_price: int):
-    username = ctx.author
+    username = ctx.author.id
     botfunctions.insertSell(current_price, username)
-    await ctx.send(f'@{username}! Your current price of {current_price} has been logged!')
+    await ctx.send(f'@{username} Your current price of {current_price} has been logged!')
 
-@bot.command(name='get_price', help='Logs current price of turnips')
+@bot.command(name='get_price', help='Displays the top prices for today')
 async def get_price(ctx):
     return_prices = botfunctions.getPrices()
-    await ctx.send(f'Here are the top prices for today: {return_prices}')
+    await ctx.send(f'Here are the top prices for today:\n {return_prices}')
 
 # Context.guild to fetch the Guild of the command, if any.
 # Context.message to fetch the Message of the command.
