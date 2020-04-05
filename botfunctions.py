@@ -9,7 +9,11 @@ from datetime import datetime, timedelta
 
 # %%
 def insertPurchase(purchase_price, author):
+    """
+    
+    purchase price command fucntions. Saves data to this week database.
 
+    """
     data = pd.read_csv('data.csv', index_col=0)
     insert = pd.DataFrame(data =  {'Purchase Price':[purchase_price],
                                     'Sell Price':[0],
@@ -24,6 +28,11 @@ def insertPurchase(purchase_price, author):
     
     
 def insertSell(sell_price, author):
+    """
+    
+    purchase price command fucntions. Saves data to this week database.
+
+    """
 
     data = pd.read_csv('data.csv', index_col=0)
     insert = pd.DataFrame(data =  {'Purchase Price':[0],
@@ -39,9 +48,18 @@ def insertSell(sell_price, author):
     
         
 def getPrices():
+    """
+    
+
+    Returns
+    -------
+    recent : Dataframe
+        Table of the most recent turnips prices sorted from highest to lowest
+
+    """
     
     # import database
-    data = pd.read_csv('data.csv')
+    data = pd.read_csv('data.csv',  index_col=0)
     
     # Set time variables to today and noon for comparison
     today = datetime.now().date()
@@ -66,30 +84,57 @@ def getPrices():
     
     return recent
 
-def resetTracker():
+def weeklyUpdate():
+    """
     
+    Run during new week or wheneber bot is initialized. 
+    Saves all previous weeks data in a archived database. 
+    
+
+    """
     # Get current week number
     today = datetime.today().date()
     year, week, day = today.isocalendar()
     
     # Find Weeknumber of the data
-    data = pd.read_csv('data.csv')
+    data = pd.read_csv('data.csv', index_col=0)
     data.Time = pd.to_datetime(data.Time)
     data['week'] = 0
     for i, val in enumerate(data.Time):
-        year, week, day = va
+        year, week1, day = val.isocalendar()
+        data.week[i] = week1
     
-def showTrend(player_name):
+    # Get data for turnips this week and separate that from previous weeks
+    data = data[data.week == week]
+    archive = data[~data.week==week]
+    
+    # Resets weekly tracker 
+    if len(data) == 0 :
+        print('Resetting this weeks data')
+        data = pd.DataFrame(data =  {'Purchase Price':[0],
+                                                'Sell Price':[0],
+                                                'Time':[pd.datetime.now()],
+                                                'Author Name':['admin']})
+        
+        data.to_csv('data.csv')
+    
+    # Archives old Data
+    if len(archive) != 0:
+        print('Archiving last weeks data')
+        past = pd.read_csv('archive.csv', index_col=0)
+        past = pd.concat([past, archive], ignore_index=True)
+        past.to_csv('archive.csv')
+    
+    
+# def showTrend(player_name):
     # trends by user
 # %%
 
-import pandas as pd
-insertPurchase(11, 'aaron')
 
-data = pd.DataFrame(data =  {'Purchase Price':[0],
-                                       'Sell Price':[0],
-                                       'Time':[pd.datetime.now()],
-                                       'Author Name':['admin']})
+# data = pd.DataFrame(data =  {'Purchase Price':[0],
+#                                        'Sell Price':[0],
+#                                        'Time':[pd.datetime.now()],
+#                                        'Author Name':['admin']})
 
-data.to_csv('data.csv')
+# data.to_csv('data.csv')
 data = pd.read_csv('data.csv', index_col=0)
