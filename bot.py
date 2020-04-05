@@ -22,6 +22,7 @@ bot = commands.Bot(command_prefix='!')
 @bot.command(name='purchase_price', help='Logs purchase price of turnips')
 async def purchase_price(ctx, purchase_price: int):
     username = ctx.author
+    short_user = username.strip('#')
     botfunctions.insertPurchase(purchase_price, username)
     await ctx.send(f'@{username} Your purchase price of {purchase_price} has been logged!')
 
