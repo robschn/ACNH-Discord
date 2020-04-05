@@ -32,6 +32,10 @@ async def current_price(ctx, current_price: int):
     botfunctions.insertSell(current_price, username)
     await ctx.send(f'@{username}! Your current price of {current_price} has been logged!')
 
+@bot.command(name='get_price', help='Logs current price of turnips')
+async def get_price(ctx):
+    return_prices = botfunctions.getPrices()
+    await ctx.send(f'Here are the top prices for today: {return_prices}')
 
 # Context.guild to fetch the Guild of the command, if any.
 # Context.message to fetch the Message of the command.
