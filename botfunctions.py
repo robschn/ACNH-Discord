@@ -6,6 +6,7 @@ Created on Sat Apr  4 17:48:48 2020
 """
 import pandas as pd
 from datetime import datetime, timedelta
+import matplotlib
 
 # %%
 def insertPurchase(purchase_price, author):
@@ -47,7 +48,7 @@ def insertSell(sell_price, author):
     print('Finished!')
     
         
-def getPrices():
+def getPrices(type_flag = 'Sell Price'):
     """
     
 
@@ -78,9 +79,9 @@ def getPrices():
     # This way, if a user makes a mistake, they can re-enter
     recent = recent.sort_values(by='Time', ascending=False)
     recent = recent.drop_duplicates(['Author Name'], keep='first')
-    recent = recent.sort_values(by='Sell Price', ascending=False)
+    recent = recent.sort_values(by=type_flag, ascending=False)
     
-    recent = recent[['Author Name', 'Sell Price']]
+    recent = recent[['Author Name', type_flag]]
     
     return recent
 
@@ -105,8 +106,10 @@ def weeklyUpdate():
         data.week[i] = week1
     
     # Get data for turnips this week and separate that from previous weeks
-    data = data[data.week == week]
-    archive = data[~data.week==week]
+    
+    archive = data[data.week!=week].drop(columns='week')
+    data = data[data.week == week].drop(columns='week')
+    
     
     # Resets weekly tracker 
     if len(data) == 0 :
@@ -117,6 +120,9 @@ def weeklyUpdate():
                                                 'Author Name':['admin']})
         
         data.to_csv('data.csv')
+    else:
+        print('Getting this weeks numbers...')
+        data.to_csv('data.csv')
     
     # Archives old Data
     if len(archive) != 0:
@@ -125,16 +131,33 @@ def weeklyUpdate():
         past = pd.concat([past, archive], ignore_index=True)
         past.to_csv('archive.csv')
     
+def getAllData():
+    """ 
+    Combines this weeks data with archived data
+    """
+    thisWeek = pd.read_csv('data.csv', index_col=0)
+    archived = pd.read_csv('archive.csv', index_col=0)
     
-# def showTrend(player_name):
-    # trends by user
+    allData = pd.concat([thisWeek, archived], ignore_index=True, sort=False)
+    
+    return allData
+    
+def showTrend(player_name):
+    
+    data = pd.read_csv('data.csv', index_col=0)
+    data.Time = pd.to_datetime(data.Time)
+    data = data[data['Author Name']==player_name]
+    
+    
+    
+    
 # %%
 
 
 # data = pd.DataFrame(data =  {'Purchase Price':[0],
-#                                        'Sell Price':[0],
-#                                        'Time':[pd.datetime.now()],
-#                                        'Author Name':['admin']})
+#                                         'Sell Price':[0],
+#                                         'Time':[pd.datetime.now()],
+#                                         'Author Name':['admin']})
 
 # data.to_csv('data.csv')
 data = pd.read_csv('data.csv', index_col=0)
